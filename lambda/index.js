@@ -296,7 +296,7 @@ const DrinkChoiceIntentHandler = {
                     if(i==='0') speechText += " " + choice.ingredients[i];
                     else speechText+= ", " + choice.ingredients[i];
                 }
-                speechText += '. Vuoi che ti ripeta gli ingredienti o andiamo avanti? ';
+                speechText += '. Vuoi che ti ripeta gli ingredienti o posso iniziare? ';
             }
         }
         return handlerInput.responseBuilder
@@ -316,14 +316,16 @@ const DrinkInstructionIntentHandler = {
         var comm_ingr = handlerInput.requestEnvelope.request.intent.slots.Ripeti.value;
         if(command !== undefined ){
             if(command === 'puoi iniziare' || command === 'iniziamo ora' || command === 'iniziamo la preparazione' || command === 'iniziamo'){
-                speechText = 'Ora comincerò a ripeterti passo per passo cosa devi fare. Se vuoi che io ripeta l\'ultima frase puoi dire ripeti, se vuoi continuare puoi dire avanti.';
+                speechText = 'Ora comincerò a ripeterti passo per passo cosa devi fare. Se vuoi iniziare puoi dire avanti. <break time="0.5s"/>';
+                speechText += 'Dopo ogni passo, per sentire la prossima istruzione <break time="0.8s"/> avanti <break time="0.8s"/>, per ripetere <break time="0.8s"/> ' +
+                'ripeti <break time="0.8s"/> o per il passaggio precedente <break time="0.8s"/> ripeti il passaggio precedente<break time="0.8s"/>. '
             }else{
                 if(istruzione < choice.instructions.length -1){ 
                     if(command !== 'ripeti il passo precedente' && command !== 'ripeti l\'istruzione precedente' && command !== 'ripeti il passaggio precedente'){
-                        speechText = choice.instructions[istruzione] + 'Per proseguire puoi dire avanti.';
+                        speechText = choice.instructions[istruzione];
                         istruzione++;
                     }else if (istruzione > 1){
-                        speechText = choice.instructions[istruzione-2] + 'Per proseguire puoi dire avanti.';
+                        speechText = choice.instructions[istruzione-2];
                     }
                 }
                 else{
